@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"  # Change to your preferred region
+  region = "eu-north-1" 
 }
 
 # Security Group
@@ -31,7 +31,7 @@ resource "aws_security_group" "web_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["YOUR_IP/32"]  # Replace with your IP for SSH
+    cidr_blocks = ["0.0.0.0/0"]  
   }
 
   egress {
@@ -44,12 +44,12 @@ resource "aws_security_group" "web_sg" {
 
 # EC2 Instance
 resource "aws_instance" "web" {
-  ami           = "ami-0c02fb55956c7d316"  # Amazon Linux 2 AMI in eu-central-1
+  ami           = "ami-0f50f13aefb6c0a5d" 
   instance_type = "t2.micro"
-  key_name      = "YOUR_KEY_PAIR_NAME"       # Replace with your AWS key pair
+  key_name      = "test123"       
   security_groups = [aws_security_group.web_sg.name]
   
-  user_data = file("userdata.sh")   # Script to install NGINX
+  user_data = file("userdata.sh")  
 
   tags = {
     Name = "web-server"
